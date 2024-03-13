@@ -17,7 +17,4 @@ app.use(shoppingRouter);
 /** Initialization */
 app.listen(8080, async () => {
   console.log("Server is alive");
-
-  // Test database connectivity
-  fetchCollection("carts").insertOne({id: 12, items: [{name: "Mjölk", quantity: 2}]});
 });

@@ -2,12 +2,18 @@
 
 import shoppingService from "../service/shoppingService.js";
 
-const getAllCarts = (req, resp) => {
-  resp.send(shoppingService.getAll());
+const getAllCarts = async (req, resp) => {
+  const carts = await shoppingService.getAll();
+
+  if(carts.length == 0) {
+    return resp.status(204).send({msg: "Cart is empty"});
+  }
+
+  resp.send(await shoppingService.getAll());
 };
 
-const getCart = (req, resp) => {
-  resp.send("Not implemented yet");
+const getCart = async (req, resp) => {
+  resp.send(await shoppingService.get(req.params.id));
 }
 
 const addItem = (req, resp) => {
@@ -24,8 +30,10 @@ const addItem = (req, resp) => {
   resp.status(201).send({msg: "Item was added"});
 }
 
-const deleteItem = (req, resp) => {
-  resp.send("Not implemented yet");
+const deleteItem = async (req, resp) => {
+  await shoppingService.deleteItem(req.params.id, req.params.itemId);
+
+  resp.status(200).send({msg: "success"});
 }
 
 const updateItem = (req, resp) => {
